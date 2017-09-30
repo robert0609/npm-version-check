@@ -9,7 +9,7 @@ function push(pkg) {
 }
 
 async function compile() {
-	let pkg = compileQueue.pop();
+	let pkg = compileQueue.shift();
 	let spinner = ora();
 	while (pkg) {
 		spinner.start(chalk.cyan(`${pkg.name} installing dependency......`));
@@ -22,7 +22,7 @@ async function compile() {
 		await npmHelper.publish(pkg);
 		spinner.succeed(chalk.cyan(`${pkg.name} published successfully!`));
 
-		pkg = compileQueue.pop();
+		pkg = compileQueue.shift();
 	}
 }
 
