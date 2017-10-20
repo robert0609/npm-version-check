@@ -52,7 +52,10 @@ function run(name, mode) {
 async function exec(name, mode) {
 	let packageDictionary = await loadPackage();
 	let dependenciesTree = analyze(packageDictionary);
-	let pkg = dependenciesTree[name];
+  let pkg = dependenciesTree[name];
+  if (!pkg) {
+    throw new Error(`Package ${name} is not found!`);
+  }
 	switch (mode) {
 		case 'patch':
 			pkg.patch();
