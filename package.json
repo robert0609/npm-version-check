@@ -1,6 +1,6 @@
 {
   "name": "npm-version-check",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "npm version manager",
   "main": "./dist/index.js",
   "bin": {

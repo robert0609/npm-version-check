@@ -134,13 +134,33 @@ export default class PackageClass {
 				this[privatePropertySet].rawPackageJson[kind][name] = `^${version}`;
 			}
 		}
-	}
+  }
+
+  get dependencyVersionChanged() {
+    let result = false;
+    for (let kind in this.dependencyDictionary) {
+      for (let name in this.dependencyDictionary[kind]) {
+        if (this.dependencyDictionary[kind][name].isVersionChanged) {
+          result = true;
+          break;
+        }
+      }
+      if (result) {
+        break;
+      }
+    }
+    return result;
+  }
 
 	async save() {
 		if (!this.isVersionChanged) {
 			return;
 		}
-		//TODO:判断当前package的依赖包是否有版本升级，如果有则中断当前的保存操作
+    //判断当前package的依赖包是否有版本升级，如果有则中断当前的保存操作
+    if (this.dependencyVersionChanged) {
+      return;
+    }
+
 		let content = JSON.stringify(this[privatePropertySet].rawPackageJson, null, 2);
 		await fileHelper.write(this[privatePropertySet].rawPackageFilePath, content);
 		this.isPatched = false;

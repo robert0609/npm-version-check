@@ -9,6 +9,7 @@ function push(pkg) {
 }
 
 async function compile() {
+  // await console.log(compileQueue); //Debug code
 	let pkg = compileQueue.shift();
 	let spinner = ora();
 	while (pkg) {
